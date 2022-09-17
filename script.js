@@ -1,21 +1,24 @@
+//-------------------------Veriable decleration-------------------------------
+
 let loc =document.getElementById("location");
 let tempicon=document.getElementById("temp-icon");
 let tempvalue=document.getElementById("temp-value");
 let climate =document.getElementById("climate");
 let iconfile;
+
+//----------------------for search button variable-------------------------
 const searchInput=document.getElementById("search-input");
 const searchButton=document.getElementById("search-button");
 
-// Stop Browser Refresh
+//---------------------- Stop Browser Refresh-------------------------------------
+
 searchButton.addEventListener('click', (e)=>
 {
-
 e.preventDefault();
 getWeather(searchInput.value);// Function someone click on function call this function.
 searchInput.value='';
-
-
 });
+
 
 //------------------------------ CODE FOR ALL CITIES---------------------------------------
 
@@ -25,7 +28,8 @@ const getWeather=async (city)=>
     try{
 
         const response= await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=dab3af44de7d24ae7ff86549334e45bd`,
-            // Instead of cors locally use https:// and mode:'Cors'
+            
+            //-----------------------(core-Anywhere) Instead of cors locally use https:// and mode:'Cors' ----------------------------
             {mode: 'cors'}
         );
 
@@ -76,17 +80,20 @@ catch(error)
 
 
 //--------------------------------------CODE FOR CURRENT LOCATION.--------------------------------------------
-// Longitude and Latitude
+
+// --------------------------Longitude and Latitude for get pop-up for allow location--------------------
 
 window.addEventListener("load" ,()=>{
 
 let long;
 let lat;
 
-// Allow the Location.
+//--------------------------------- Allow the Location-----------------------
+
 if(navigator.geolocation)
 {
-    // current location.
+    // -------------------- current location---------------------
+    
     navigator.geolocation.getCurrentPosition((position)=>
     {
 
@@ -95,11 +102,13 @@ if(navigator.geolocation)
     long=position.coords.longitude;
     lat=position.coords.latitude;
     
-    // Create the local server. 
+    //-------------------------- Create the local server-------------------
+    
     const proxy="https://cors-anywhere.herokuapp.com/";
             
-        // Store the Api.  
-        // Cordinate API From geolocation co-ordinate
+        //----------------------------- Store the Api from openWeather site ----------------------------  
+        //--------------------------- Cordinate API From geolocation co-ordinate ----------------------------------
+        
         const api=`${proxy}api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=dab3af44de7d24ae7ff86549334e45bd     `
 
         fetch(api).then((response)=>{
@@ -112,17 +121,21 @@ if(navigator.geolocation)
 
         .then (data =>
             {
-                    // JSON to Normal Javascript
+                    //-------------------------- JSON data to Normal data ---------------------------
+                    
                     const{name}=data;
                     const{feels_like}=data.main;
                     const{id,main}=data.weather[0];
 
-                    // Current Data 
+                    //-----------------------------  Current Data --------------------------
+                    
                     loc.textContent=name;
                     climate.textContent=main;
-                    tempvalue.textContent=Math.round(feels_like-273);// Temp in kelvin.
+                    tempvalue.textContent=Math.round(feels_like-273); //----------------- Temp in kelvin.
                     
-                     // Weather condition codes.
+                    
+                     //---------------------------- Weather condition codes-------------------------------
+                     
                     if(id<300 && id>200)
                     {
                         tempicon.src="./icons/thunderstorm.svg"
