@@ -42,6 +42,7 @@ const getWeather=async (city)=>
         // Weather condition codes.
         if(id<300 && id>200)
         {
+            //flaticon.com
             tempicon.src="./icons/thunderstorm.svg"
         }
        else  if(id<400 && id>300)
